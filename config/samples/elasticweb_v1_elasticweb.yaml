@@ -1,0 +1,9 @@
+apiVersion: elasticweb.k8s.io/v1
+kind: ElasticWeb
+metadata:
+  name: elasticweb-sample
+spec:
+  image: nginx
+  port: 30018
+  singlePodQPS: 1000
+  totalQPS: 800

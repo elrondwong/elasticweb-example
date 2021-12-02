@@ -1,0 +1,101 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.7.0
+    api-approved.kubernetes.io: https://github.com/kubernetes/enhancements/pull/1111
+  creationTimestamp: null
+  name: elasticwebs.elasticweb.k8s.io
+spec:
+  group: elasticweb.k8s.io
+  names:
+    kind: ElasticWeb
+    listKind: ElasticWebList
+    plural: elasticwebs
+    singular: elasticweb
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.image
+      name: Image
+      type: string
+    - jsonPath: .spec.port
+      name: Port
+      type: integer
+    - jsonPath: .spec.singlePodQPS
+      name: SinglePodQPS
+      type: integer
+    - jsonPath: .spec.totalQPS
+      name: TotalQPS
+      type: integer
+    - jsonPath: .status.realQPS
+      name: RealQPS
+      type: integer
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: ElasticWeb is the Schema for the elasticwebs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ElasticWebSpec defines the desired state of ElasticWeb
+            properties:
+              image:
+                description: Foo is an example field of ElasticWeb. Edit elasticweb_types.go to remove/update service image
+                type: string
+              port:
+                description: service port
+                format: int32
+                type: integer
+              singlePodQPS:
+                description: single pod qps
+                format: int32
+                maximum: 2000
+                minimum: 1000
+                type: integer
+              totalQPS:
+                description: total qps
+                format: int32
+                type: integer
+            required:
+            - image
+            - port
+            - singlePodQPS
+            - totalQPS
+            type: object
+          status:
+            description: ElasticWebStatus defines the observed state of ElasticWeb
+            properties:
+              realQPS:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                format: int32
+                type: integer
+            required:
+            - realQPS
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
